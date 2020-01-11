@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +19,9 @@ import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 @EnableWebSecurity
 public class AppWebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	
+	
+	@Autowired
+	private Environment env;
 	
 
     private static final String SQL_LOGIN
@@ -49,16 +53,18 @@ public class AppWebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	    protected void configure(HttpSecurity http) throws Exception {
 	        http
 	                .authorizeRequests()
-	                .antMatchers("/css/**").permitAll()
-	                .antMatchers("/js/**").permitAll()
-	                .antMatchers("/halo").hasAnyRole("ADMIN", "STAFF")
+	                .antMatchers("/assets/**").permitAll()
+	                .antMatchers("/demo/**").permitAll()
+	                .antMatchers("/docs/**").permitAll()
+	                .antMatchers("/dashboard").hasAnyRole("ADMIN")
+	                 .antMatchers("/halo").hasAnyRole("ADMIN", "STAFF")
 	                .antMatchers("/peserta/form").hasRole("ADMIN")
 	                .antMatchers("/peserta/list").hasRole("STAFF")
 	                .anyRequest().authenticated()
 	                .and()
 	                .formLogin()
 	                .loginPage("/login").permitAll()
-	                .defaultSuccessUrl("/hello")
+	                .defaultSuccessUrl(env.getProperty("login.default.index"))
 	                .and()
 	                .logout()
 	                .and()
