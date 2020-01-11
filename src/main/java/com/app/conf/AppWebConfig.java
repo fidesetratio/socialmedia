@@ -16,6 +16,11 @@ public class AppWebConfig implements  WebMvcConfigurer  {
 	        registry.addViewController("/dashboard").setViewName("dashboard");
 	        
 		};
+		
+		@Override
+	    public void addInterceptors(InterceptorRegistry registry) {
+	        registry.addInterceptor(new ThymeleafLayoutInterceptor());
+	    }
 	    
 	    
 /*

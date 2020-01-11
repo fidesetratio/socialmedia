@@ -56,7 +56,7 @@ public class AppWebSecurityConfig  extends WebSecurityConfigurerAdapter {
 	                .antMatchers("/assets/**").permitAll()
 	                .antMatchers("/demo/**").permitAll()
 	                .antMatchers("/docs/**").permitAll()
-	                .antMatchers("/dashboard").hasAnyRole("ADMIN")
+	                .antMatchers("/dashboard**").hasAnyRole("ADMIN")
 	                 .antMatchers("/halo").hasAnyRole("ADMIN", "STAFF")
 	                .antMatchers("/peserta/form").hasRole("ADMIN")
 	                .antMatchers("/peserta/list").hasRole("STAFF")
